@@ -1,0 +1,15 @@
+.app-shell {
+  width: 360px;
+  max-width: 360px;
+  min-height: 800px;
+  height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  
+  /* Контент поверх глобального фона */
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}

@@ -1,0 +1,25 @@
+from flask import Flask, Blueprint
+from flask_jwt_extended import JWTManager
+from datetime import timedelta
+from project.config import settings
+from project.extensions import socketio
+from project.application.routes import all_routes
+
+
+main_blueprint = Blueprint('main', __name__)
+main_blueprint.register_blueprint(all_routes)
+
+
+def create_app():
+    app = Flask(__name__,static_url_path="/static",
+        static_folder="static")
+    app.config["JWT_SECRET_KEY"] = settings.JWT_SECRET_KEY
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRES)
+
+    jwt = JWTManager(app)
+    socketio.init_app(app)
+
+    app.register_blueprint(main_blueprint)
+
+    return app
+
